@@ -39,9 +39,8 @@ export default function SignupPage() {
       }
     });
 
-    setLoading(false);
-
     if (signUpError) {
+      setLoading(false);
       setError(signUpError.message);
     } else if (data.user) {
       // Create the profile record to satisfy foreign key constraints
@@ -55,6 +54,7 @@ export default function SignupPage() {
         router.push("/dashboard");
         router.refresh();
       } else {
+        setLoading(false);
         setError(null);
         setSuccess(true);
       }

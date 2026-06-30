@@ -31,9 +31,8 @@ export default function LoginPage() {
       password,
     });
 
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       setError(error.message);
     } else {
       router.push("/dashboard");

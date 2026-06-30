@@ -54,11 +54,9 @@ export default function Home() {
       {/* Product Overview Section */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold font-heading mb-6">Product Overview</h2>
+          <h2 className="text-3xl font-bold font-heading mb-6">{t("productOverview")}</h2>
           <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
-            ThreadCounty is a comprehensive AI-powered platform designed to replace manual fabric inspection. 
-            By leveraging advanced computer vision, our software instantly analyzes macroscopic fabric images 
-            to determine thread density, warp and weft counts, and material composition with unparalleled precision.
+            {t("productDescription")}
           </p>
         </div>
       </section>
@@ -67,17 +65,17 @@ export default function Home() {
       <section className="py-20 relative">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-heading">Powerful Features for Modern Manufacturing</h2>
-            <p className="mt-4 text-muted-foreground">Everything you need to automate quality control and fabric analysis.</p>
+            <h2 className="text-3xl font-bold font-heading">{t("featuresTitle")}</h2>
+            <p className="mt-4 text-muted-foreground">{t("featuresSubtitle")}</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { title: "Voice-Enabled Chatbot", description: "Ask questions naturally using our built-in AI assistant with Speech Recognition.", icon: <Zap className="h-6 w-6" /> },
-              { title: "Offline PWA Support", description: "Install ThreadCounty on any device and access it anywhere, anytime.", icon: <ShieldCheck className="h-6 w-6" /> },
-              { title: "Smart Compression & OCR", description: "Client-side image compression and built-in Tesseract OCR for fabric tags.", icon: <Activity className="h-6 w-6" /> },
-              { title: "Historical Comparison", description: "Dynamically compare past analysis reports side-by-side in the dashboard.", icon: <Activity className="h-6 w-6" /> },
-              { title: "Multi-language (i18n)", description: "Available in English and Spanish with seamless route-based localization.", icon: <Zap className="h-6 w-6" /> },
-              { title: "Email Notifications", description: "Receive instant email updates when your AI fabric analysis is complete.", icon: <ShieldCheck className="h-6 w-6" /> },
+              { title: t("f1Title"), description: t("f1Desc"), icon: <Zap className="h-6 w-6" /> },
+              { title: t("f2Title"), description: t("f2Desc"), icon: <ShieldCheck className="h-6 w-6" /> },
+              { title: t("f3Title"), description: t("f3Desc"), icon: <Activity className="h-6 w-6" /> },
+              { title: t("f4Title"), description: t("f4Desc"), icon: <Activity className="h-6 w-6" /> },
+              { title: t("f5Title"), description: t("f5Desc"), icon: <Zap className="h-6 w-6" /> },
+              { title: t("f6Title"), description: t("f6Desc"), icon: <ShieldCheck className="h-6 w-6" /> },
             ].map((feature, i) => (
               <motion.div 
                 key={i}
@@ -102,26 +100,26 @@ export default function Home() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-heading">How It Works</h2>
-            <p className="mt-4 text-muted-foreground">Three simple steps to transform your quality control.</p>
+            <h2 className="text-3xl font-bold font-heading">{t("howItWorks")}</h2>
+            <p className="mt-4 text-muted-foreground">{t("howItWorksSub")}</p>
           </div>
           <div className="flex flex-col md:flex-row justify-center items-center gap-12 text-center">
              <div className="flex-1 max-w-sm">
                 <div className="text-5xl font-extrabold text-primary/80 mb-4">01</div>
-                <h3 className="text-xl font-bold mb-2">Upload Image</h3>
-                <p className="text-muted-foreground">Take a macroscopic photo of your fabric and upload it securely.</p>
+                <h3 className="text-xl font-bold mb-2">{t("step1")}</h3>
+                <p className="text-muted-foreground">{t("step1Desc")}</p>
              </div>
              <div className="hidden md:block w-px h-24 bg-border"></div>
              <div className="flex-1 max-w-sm">
                 <div className="text-5xl font-extrabold text-primary/80 mb-4">02</div>
-                <h3 className="text-xl font-bold mb-2">AI Processing</h3>
-                <p className="text-muted-foreground">Our neural networks analyze the thread structure instantly.</p>
+                <h3 className="text-xl font-bold mb-2">{t("step2")}</h3>
+                <p className="text-muted-foreground">{t("step2Desc")}</p>
              </div>
              <div className="hidden md:block w-px h-24 bg-border"></div>
              <div className="flex-1 max-w-sm">
                 <div className="text-5xl font-extrabold text-primary/80 mb-4">03</div>
-                <h3 className="text-xl font-bold mb-2">Get Results</h3>
-                <p className="text-muted-foreground">Download detailed reports with density, type, and actionable suggestions.</p>
+                <h3 className="text-xl font-bold mb-2">{t("step3")}</h3>
+                <p className="text-muted-foreground">{t("step3Desc")}</p>
              </div>
           </div>
         </div>
@@ -134,19 +132,19 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-foreground">
             <div>
               <div className="text-4xl font-extrabold mb-2">100%</div>
-              <div className="text-foreground/80 font-medium">Cloud Based</div>
+              <div className="text-foreground/80 font-medium">{t("stat1")}</div>
             </div>
             <div>
-              <div className="text-4xl font-extrabold mb-2">Zero</div>
-              <div className="text-foreground/80 font-medium">Setup Required</div>
+              <div className="text-4xl font-extrabold mb-2">0</div>
+              <div className="text-foreground/80 font-medium">{t("stat2")}</div>
             </div>
             <div>
               <div className="text-4xl font-extrabold mb-2">24/7</div>
-              <div className="text-foreground/80 font-medium">Availability</div>
+              <div className="text-foreground/80 font-medium">{t("stat3")}</div>
             </div>
             <div>
               <div className="text-4xl font-extrabold mb-2">~2s</div>
-              <div className="text-foreground/80 font-medium">Average Processing Time</div>
+              <div className="text-foreground/80 font-medium">{t("stat4")}</div>
             </div>
           </div>
         </div>
@@ -156,8 +154,8 @@ export default function Home() {
       <section className="py-20 relative">
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-heading">What Our Users Say</h2>
-            <p className="mt-4 text-muted-foreground">Hear from our early beta testers.</p>
+            <h2 className="text-3xl font-bold font-heading">{t("testimonials")}</h2>
+            <p className="mt-4 text-muted-foreground">{t("testimonialsSub")}</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="bg-card p-6 rounded-2xl shadow-sm border">
@@ -191,32 +189,32 @@ export default function Home() {
       {/* FAQ Section (Preview) */}
       <section className="py-20">
         <div className="container mx-auto px-4 max-w-3xl text-center">
-          <h2 className="text-3xl font-bold font-heading mb-12">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold font-heading mb-12">{t("faq")}</h2>
           <div className="space-y-6 text-left">
             <div className="bg-muted/30 p-6 rounded-lg border">
-              <h3 className="font-bold text-lg mb-2">How accurate is the AI Analysis?</h3>
-              <p className="text-muted-foreground">Our computer vision system is designed to provide highly accurate metrics for thread density, warp/weft counts, and material identification under standard macro-photography conditions.</p>
+              <h3 className="font-bold text-lg mb-2">{t("faq1Q")}</h3>
+              <p className="text-muted-foreground">{t("faq1A")}</p>
             </div>
             <div className="bg-muted/30 p-6 rounded-lg border">
-              <h3 className="font-bold text-lg mb-2">What image formats are supported?</h3>
-              <p className="text-muted-foreground">We currently support JPG, JPEG, and PNG formats. Best results require at least 1024x1024 resolution.</p>
+              <h3 className="font-bold text-lg mb-2">{t("faq2Q")}</h3>
+              <p className="text-muted-foreground">{t("faq2A")}</p>
             </div>
           </div>
           <Link href="/faq" className="mt-8 inline-block">
-            <Button variant="outline">View All FAQs</Button>
+            <Button variant="outline">{t("viewFaq")}</Button>
           </Link>
         </div>
       </section>
       {/* Contact Section */}
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold font-heading mb-6">Ready to Transform Your Quality Control?</h2>
+          <h2 className="text-3xl font-bold font-heading mb-6">{t("ready")}</h2>
           <p className="mb-8 max-w-2xl mx-auto opacity-90">
-            Contact our sales team today to learn how ThreadCounty can be integrated into your existing manufacturing pipeline.
+            {t("readySub")}
           </p>
           <Link href="/contact">
             <Button size="lg" variant="secondary" className="rounded-full px-8 text-primary font-bold">
-              Contact Us Today
+              {t("contactBtn")}
             </Button>
           </Link>
         </div>

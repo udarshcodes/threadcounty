@@ -122,7 +122,8 @@ export default function UploadPage() {
 
       const { data: { session } } = await supabase.auth.getSession();
 
-      const aiResponse = await fetch(process.env.NEXT_PUBLIC_AI_BACKEND_URL || "http://127.0.0.1:8000/api/analyze", {
+      const backendUrl = process.env.NEXT_PUBLIC_AI_BACKEND_URL || "http://127.0.0.1:8000";
+      const aiResponse = await fetch(`${backendUrl}/api/analyze`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${session?.access_token}`

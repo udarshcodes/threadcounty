@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
@@ -13,6 +14,7 @@ export default function PricingPage() {
       features: ["Basic AI Analysis", "Standard resolution support", "Community access"],
       buttonText: "Get Started",
       buttonVariant: "outline" as const,
+      href: "/signup",
     },
     {
       name: "Student",
@@ -21,6 +23,7 @@ export default function PricingPage() {
       features: ["Advanced AI Analysis", "Detailed Web Reports", "Priority email support", "Image History"],
       buttonText: "Subscribe",
       buttonVariant: "outline" as const,
+      href: "/signup",
     },
     {
       name: "Professional",
@@ -30,6 +33,7 @@ export default function PricingPage() {
       buttonText: "Subscribe",
       buttonVariant: "default" as const,
       popular: true,
+      href: "/signup",
     },
     {
       name: "Enterprise",
@@ -38,6 +42,7 @@ export default function PricingPage() {
       features: ["Dedicated account manager", "Custom Integrations", "On-premise deployment option", "SLA Guarantees"],
       buttonText: "Contact Sales",
       buttonVariant: "outline" as const,
+      href: "/contact",
     }
   ];
 
@@ -51,38 +56,42 @@ export default function PricingPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto pt-4">
           {plans.map((plan, i) => (
-            <Card key={i} className={`flex flex-col relative ${plan.popular ? 'border-primary shadow-lg scale-105' : ''}`}>
+            <div key={i} className={`relative flex ${plan.popular ? 'scale-105' : ''}`}>
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
                   Most Popular
                 </div>
               )}
-              <CardHeader>
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-                <div className="mt-4">
-                  <span className="text-4xl font-extrabold">{plan.price}</span>
-                  {plan.price !== "Custom" && <span className="text-muted-foreground">/mo</span>}
-                </div>
-              </CardHeader>
-              <CardContent className="flex-1">
-                <ul className="space-y-3">
-                  {plan.features.map((feature, j) => (
-                    <li key={j} className="flex items-start">
-                      <Check className="h-5 w-5 text-primary shrink-0 mr-2" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full" variant={plan.buttonVariant}>
-                  {plan.buttonText}
-                </Button>
-              </CardFooter>
-            </Card>
+              <Card className={`flex flex-col w-full ${plan.popular ? 'border-primary shadow-lg' : ''}`}>
+                <CardHeader>
+                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                  <CardDescription>{plan.description}</CardDescription>
+                  <div className="mt-4">
+                    <span className="text-4xl font-extrabold">{plan.price}</span>
+                    {plan.price !== "Custom" && <span className="text-muted-foreground">/mo</span>}
+                  </div>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <ul className="space-y-3">
+                    {plan.features.map((feature, j) => (
+                      <li key={j} className="flex items-start">
+                        <Check className="h-5 w-5 text-primary shrink-0 mr-2" />
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Link href={plan.href} className="w-full">
+                    <Button className="w-full" variant={plan.buttonVariant}>
+                      {plan.buttonText}
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            </div>
           ))}
         </div>
       </div>
