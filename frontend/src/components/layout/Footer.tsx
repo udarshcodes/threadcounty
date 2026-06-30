@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
@@ -21,6 +22,13 @@ export function Footer() {
             <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
               Empowering the textile industry with AI-driven fabric analysis and advanced modern technology. Start analyzing instantly.
             </p>
+            <div className="pt-2">
+              <Button asChild variant="outline" className="rounded-full shadow-md bg-background/50 hover:bg-background border-white/20 dark:border-white/10 transition-all duration-300">
+                <a href="https://www.linkedin.com/in/udarsh-goyal-256095383/" target="_blank" rel="noopener noreferrer">
+                  About the Developer
+                </a>
+              </Button>
+            </div>
           </div>
           
           <div>
