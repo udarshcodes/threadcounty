@@ -143,7 +143,9 @@ export default function UploadPage() {
       });
 
       if (!aiResponse.ok) {
-        throw new Error("AI Analysis backend failed to process the image. Ensure the backend is running on port 8000.");
+        const errorData = await aiResponse.json().catch(() => null);
+        const errorMessage = errorData?.detail || "AI Analysis backend failed to process the image. Ensure the backend is running on port 8000.";
+        throw new Error(errorMessage);
       }
 
       const aiResult = await aiResponse.json();
