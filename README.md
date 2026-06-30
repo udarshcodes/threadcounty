@@ -19,6 +19,8 @@ ThreadCounty is an enterprise-grade application designed for textile manufacture
 - **PWA & Offline Support:** Installable as a native app on desktop and mobile devices via service workers.
 - **Advanced Upload Capabilities:** Features client-side image compression (`browser-image-compression`) to save bandwidth and OCR Integration (`tesseract.js`) to extract fabric tags before AI analysis.
 - **AI Chatbot & Voice Search:** Dedicated AI assistant with microphone dictation via the `SpeechRecognition` API, powered on the backend by **Groq** and `llama-3.3-70b-versatile` (along with `llama-3.2-11b-vision-preview` and `llama-3.1-8b-instant` for validation).
+- **Mathematical Heuristic Firewall:** A robust OpenCV-based pipeline on the backend that calculates Color Histograms and Geometric Grids (via `HoughLinesP`) to mathematically intercept and reject documents and timetables before AI processing.
+- **Base64 Storage Fallback Strategy:** If cloud storage buckets are unconfigured or restricted by RLS, the application dynamically falls back to Data URIs, storing raw image data directly into the database to guarantee 100% upload reliability.
 - **Fabric Comparison Tool:** Dedicated dashboard utility to contrast and compare the density, warp, and weft of two historical analysis reports.
 - **Real-Time Notifications:** Live toast popups triggered by Supabase Postgres changes to alert users of completed reports.
 - **Custom Email Notifications:** Transactional emails powered by `resend` and `react-email` automatically dispatched upon analysis completion.
@@ -27,7 +29,7 @@ ThreadCounty is an enterprise-grade application designed for textile manufacture
 - **User Dashboard & History:** Infinite-scrolling history page to view past uploads, download PDF/txt reports, and manage quotas.
 - **Admin Panel:** Platform overview, granular user role management (elevate users to admins), and global report monitoring.
 - **Community & Content:** Includes a modern Blog and a functional Community Forum for users to interact.
-- **Modern UI/UX:** Responsive design with system-wide Dark/Light mode, smooth Framer Motion animations, and Shadcn UI.
+- **Modern UI/UX:** Responsive design with system-wide Dark/Light mode, beautifully integrated Framer Motion global page transitions, and Shadcn UI.
 
 ## Tech Stack
 
@@ -114,6 +116,7 @@ The platform operates on a robust two-tier architecture:
 ## What I Learned
 - **Decoupled Architecture:** Separating the AI processing into a FastAPI service rather than using Next.js API routes ensures that heavy Python-based ML/CV libraries won't bloat the frontend edge servers.
 - **Client-Side Preprocessing:** Pushing tasks like Image Compression and basic OCR to the user's browser using Web Workers drastically reduces server bandwidth and backend processing times.
+- **Algorithmic Fallbacks:** Implementing pure mathematical heuristics (like OpenCV geometric detection) is a necessary safety net against LLM hallucinations, ensuring strict data validation.
 - **Progressive Enhancement:** Utilizing service workers and App Manifests to allow native installation brings web applications much closer to mobile application parity.
 - **Route-based i18n:** Implementing `next-intl` demonstrated how powerful segment-based localized routing (`/en`, `/es`) is for SEO and global user experience.
 - **Modern Email Templating:** Building HTML emails using standard React components via `react-email` and `resend` is vastly superior to writing raw, table-based HTML email code.
