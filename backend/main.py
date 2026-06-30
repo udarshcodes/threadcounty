@@ -31,6 +31,21 @@ app = FastAPI(
     title="ThreadCounty API", description="AI Backend for ThreadCounty Platform"
 )
 
+@app.on_event("startup")
+async def startup_event():
+    if supabase:
+        try:
+            # Check if bucket exists, if not create it as a public bucket
+            buckets = supabase.storage.list_buckets()
+            bucket_names = [b.name for b in buckets] if buckets else []
+            if "uploads" not in bucket_names:
+                supabase.storage.create_bucket("uploads", {"public": True})
+            else:
+                # Ensure it is public just in case
+                supabase.storage.update_bucket("uploads", {"public": True})
+        except Exception as e:
+            print(f"Warning: Failed to ensure 'uploads' bucket exists: {e}")
+
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
@@ -245,7 +260,7 @@ async def analyze_fabric(
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": "Is this a photograph of a woven fabric, textile, or threading? Answer strictly YES or NO."},
+                            {"type": "text", "text": "Output STRICTLY AND ONLY the word YES if this is a close-up macro photograph of a woven fabric, textile, or threading. If it is a timetable, spreadsheet, text, screenshot, or anything else, output STRICTLY AND ONLY the word NO. Do not explain your reasoning."},
                             {
                                 "type": "image_url",
                                 "image_url": {
@@ -260,7 +275,7 @@ async def analyze_fabric(
                 max_tokens=10
             )
             vision_response = chat_completion.choices[0].message.content.strip().upper()
-            if "NO" in vision_response and "YES" not in vision_response:
+            if "YES" not in vision_response:
                 raise HTTPException(status_code=400, detail="Image does not appear to be a fabric or textile. Please upload a clear photo of a fabric.")
         except Exception as e:
             if isinstance(e, HTTPException):

@@ -18,6 +18,18 @@ export function Navbar() {
     { href: "/about", label: t("about") },
   ];
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { createClient } = await import("@/lib/supabase/client");
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/40 dark:bg-black/30 backdrop-blur-2xl shadow-sm supports-[backdrop-filter]:bg-background/20">
       <div className="container mx-auto flex h-16 items-center px-4">
@@ -45,12 +57,20 @@ export function Navbar() {
           <nav className="flex items-center space-x-2">
             <LanguageSwitcher />
             <ThemeToggle />
-            <Link href="/login">
-              <Button variant="ghost" size="sm">{t("login")}</Button>
-            </Link>
-            <Link href="/signup">
-              <Button size="sm">{t("getStarted")}</Button>
-            </Link>
+            {isAuthenticated ? (
+              <Link href="/dashboard">
+                <Button size="sm">Dashboard</Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button variant="ghost" size="sm">{t("login")}</Button>
+                </Link>
+                <Link href="/signup">
+                  <Button size="sm">{t("getStarted")}</Button>
+                </Link>
+              </>
+            )}
           </nav>
         </div>
       </div>
