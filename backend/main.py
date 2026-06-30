@@ -310,10 +310,11 @@ async def analyze_fabric(
     weft_count = int(weft_freq_cycles * 1.5)
     
     # Fallback to realistic bounds if the image was not a fabric texture (e.g. solid color)
-    if warp_count < 20:
-        warp_count = random.randint(40, 120)
-    if weft_count < 20:
-        weft_count = random.randint(30, 100)
+    if warp_count < 20 or weft_count < 20:
+        if groq_client:
+            # If Vision API didn't catch it but math did, it's likely not a fabric
+            pass 
+        raise HTTPException(status_code=400, detail="Image does not contain a recognizable woven fabric texture. Please upload a clear, close-up photo of a textile.")
 
     thread_density = round((warp_count + weft_count) / 2.0, 2)
     
@@ -435,6 +436,26 @@ async def delete_user(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class RoleUpdateRequest(BaseModel):
+    role: str
+
+@app.patch("/api/admin/users/{target_user_id}/role")
+async def update_user_role(
+    target_user_id: str, request: RoleUpdateRequest, user: Dict[str, Any] = Depends(verify_admin)
+):
+    try:
+        if request.role not in ["admin", "user"]:
+            raise HTTPException(status_code=400, detail="Invalid role")
+        response = supabase.table("profiles").update({"role": request.role}).eq("id", target_user_id).execute()
+        if not response.data:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {"status": "success", "message": f"User {target_user_id} role updated to {request.role}."}
+    except Exception as e:
+        if isinstance(e, HTTPException):
+            raise e
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/api/admin/uploads")
 async def get_all_uploads(user: Dict[str, Any] = Depends(verify_admin)):
     try:
@@ -462,7 +483,15 @@ class ChatMessage(BaseModel):
 @app.post("/api/chat")
 async def chat_with_bot(chat_msg: ChatMessage):
     if not groq_client:
-        return {"reply": "I am currently running in offline mode. Please configure a Groq API key in the backend environment to enable true AI responses."}
+        msg = chat_msg.message.lower()
+        if "pricing" in msg or "cost" in msg or "plan" in msg:
+            return {"reply": "We offer four plans: Free ($0/mo), Student ($9/mo), Professional ($49/mo), and Enterprise (Custom pricing). You can upgrade anytime in your dashboard."}
+        elif "upload" in msg or "analyze" in msg or "how" in msg:
+            return {"reply": "To analyze a fabric, go to your Dashboard, click 'New Analysis', and upload a clear macro photo of your textile. Our AI will automatically calculate thread density and fabric type!"}
+        elif "fabric" in msg or "textile" in msg or "denim" in msg:
+            return {"reply": "ThreadCounty specializes in analyzing woven fabrics like Denim, Cotton, Silk, and Polyester by measuring warp and weft counts using advanced computer vision."}
+        else:
+            return {"reply": "Hello! I am the ThreadCounty AI assistant (running in offline mock mode without an API key). I can answer basic questions about our pricing, fabric analysis, and how to use the platform. How can I help you?"}
     
     try:
         # Tier 1: The Guardrail Lock

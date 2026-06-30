@@ -85,13 +85,19 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="pt-8 border-t">
+               <div className="pt-8 border-t">
                 <div className="h-48 w-full bg-muted rounded-xl border flex items-center justify-center overflow-hidden relative">
-                   {/* Google Maps Mock */}
-                   <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at center, #999 1px, transparent 1px)', backgroundSize: '10px 10px' }}></div>
-                   <div className="bg-background/80 px-3 py-1.5 rounded-full shadow-sm text-sm font-medium z-10 flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-primary" /> ThreadCounty HQ
-                   </div>
+                   <iframe 
+                     width="100%" 
+                     height="100%" 
+                     frameBorder="0" 
+                     scrolling="no" 
+                     marginHeight={0} 
+                     marginWidth={0} 
+                     src="https://www.openstreetmap.org/export/embed.html?bbox=-74.0048110485077%,40.75168051675209,-73.9897906780243,40.75880193181817&amp;layer=mapnik&amp;marker=40.75524163454316%2C-73.99730086326599" 
+                     style={{ border: 0 }}
+                     title="ThreadCounty HQ Location"
+                   ></iframe>
                 </div>
               </div>
             </div>

@@ -116,11 +116,29 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleToggleRole = (userId: string, currentRole: string = 'user') => {
+  const handleToggleRole = async (userId: string, currentRole: string = 'user') => {
     const newRole = currentRole === 'admin' ? 'user' : 'admin';
     if (confirm(`Change this user's role to ${newRole}?`)) {
-       // Mock role update for UI
-       setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
+       try {
+         const { data: { session } } = await supabase.auth.getSession();
+         const res = await fetch(`${process.env.NEXT_PUBLIC_AI_BACKEND_URL || "http://127.0.0.1:8000"}/api/admin/users/${userId}/role`, {
+           method: 'PATCH',
+           headers: { 
+             'Authorization': `Bearer ${session?.access_token}`,
+             'Content-Type': 'application/json'
+           },
+           body: JSON.stringify({ role: newRole })
+         });
+         
+         if (res.ok) {
+           setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
+         } else {
+           alert("Failed to update user role.");
+         }
+       } catch (err) {
+         console.error(err);
+         alert("An error occurred while updating the role.");
+       }
     }
   };
 
