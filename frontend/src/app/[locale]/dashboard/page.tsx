@@ -73,7 +73,7 @@ export default function DashboardPage() {
           <p className="text-muted-foreground">Here is your AI analysis overview and recent activity.</p>
         </div>
         <div className="flex gap-4">
-          <Button variant="ghost" size="icon" className="relative">
+          <Button variant="ghost" size="icon" className="relative" onClick={() => alert("You have no new notifications at this time.")}>
              <Bell className="h-5 w-5" />
              <span className="absolute top-1 right-1 h-2 w-2 bg-destructive rounded-full"></span>
           </Button>

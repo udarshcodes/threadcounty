@@ -20,8 +20,8 @@ export function LanguageSwitcher() {
 
   return (
     <Select defaultValue={locale} onValueChange={onSelectChange} disabled={isPending}>
-      <SelectTrigger className="w-[100px] h-9">
-        <SelectValue placeholder="Language" />
+      <SelectTrigger className="w-[110px] h-9 gap-2">
+        <span>Language</span>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="en">English</SelectItem>
