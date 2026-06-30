@@ -18,6 +18,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const supabase = createClient();
 
@@ -50,10 +51,40 @@ export default function SignupPage() {
         last_name: lastName,
       });
 
-      router.push("/dashboard");
-      router.refresh();
+      if (data.session) {
+        router.push("/dashboard");
+        router.refresh();
+      } else {
+        setError(null);
+        setSuccess(true);
+      }
     }
   };
+
+  if (success) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative z-10">
+        <Card className="w-full max-w-md">
+          <CardHeader className="space-y-1 flex flex-col items-center text-center">
+            <div className="mb-4">
+               <Image src="/logo.png" alt="ThreadCounty Logo" width={48} height={48} className="object-contain" />
+            </div>
+            <CardTitle className="text-2xl font-bold text-green-600">Check your email</CardTitle>
+            <CardDescription className="text-base mt-2">
+              We've sent a confirmation link to <span className="font-semibold text-foreground">{email}</span>. 
+              <br /><br />
+              Please check your inbox (and your spam folder) to verify your account before logging in.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button onClick={() => router.push("/login")} className="w-full" variant="outline">
+              Return to Login
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative z-10">
