@@ -1,0 +1,20 @@
+{
+  "Index": {
+    "title": "Uncover the Secrets of Every Thread.",
+    "subtitle": "Advanced AI fabric analysis. Get accurate thread density, warp, weft, and composition data in seconds.",
+    "getStarted": "Get Started Free",
+    "viewDemo": "View Demo",
+    "features": "Features",
+    "workflow": "How It Works",
+    "pricing": "Pricing"
+  },
+  "Navbar": {
+    "home": "Home",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "getStarted": "Get Started"
+  }
+}

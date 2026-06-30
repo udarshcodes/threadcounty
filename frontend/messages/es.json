@@ -1,0 +1,20 @@
+{
+  "Index": {
+    "title": "Descubra los Secretos de Cada Hilo.",
+    "subtitle": "Análisis avanzado de tejidos por IA. Obtenga la densidad del hilo, urdimbre, trama y datos de composición en segundos.",
+    "getStarted": "Empieza Gratis",
+    "viewDemo": "Ver Demo",
+    "features": "Características",
+    "workflow": "Cómo Funciona",
+    "pricing": "Precios"
+  },
+  "Navbar": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "pricing": "Precios",
+    "contact": "Contacto",
+    "dashboard": "Panel",
+    "login": "Entrar",
+    "getStarted": "Empezar"
+  }
+}
