@@ -4,8 +4,28 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function PricingPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const supabase = createClient();
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+    checkAuth();
+  }, []);
+
+  const getHref = (defaultHref: string) => {
+    if (defaultHref === "/signup" && isAuthenticated) {
+      return "/dashboard";
+    }
+    return defaultHref;
+  };
+
   const plans = [
     {
       name: "Free",
@@ -21,7 +41,7 @@ export default function PricingPage() {
       price: "$9",
       description: "For academic research and learning.",
       features: ["Advanced AI Analysis", "Detailed Web Reports", "Priority email support", "Image History"],
-      buttonText: "Subscribe",
+      buttonText: isAuthenticated ? "Upgrade" : "Subscribe",
       buttonVariant: "outline" as const,
       href: "/signup",
     },
@@ -30,7 +50,7 @@ export default function PricingPage() {
       price: "$49",
       description: "Ideal for small to medium manufacturers.",
       features: ["Unlimited Analyses", "Advanced analytics dashboard", "24/7 Priority support", "Early access to new features"],
-      buttonText: "Subscribe",
+      buttonText: isAuthenticated ? "Upgrade" : "Subscribe",
       buttonVariant: "default" as const,
       popular: true,
       href: "/signup",
@@ -84,7 +104,7 @@ export default function PricingPage() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <Link href={plan.href} className="w-full">
+                  <Link href={getHref(plan.href)} className="w-full">
                     <Button className="w-full" variant={plan.buttonVariant}>
                       {plan.buttonText}
                     </Button>
