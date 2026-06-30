@@ -50,7 +50,7 @@ export default async function RootLayout({
           >
             <AnimatedBackground />
             <Navbar />
-            <main className="flex-1 relative z-10">
+            <main className="flex-1 relative z-10 pt-24">
               {children}
             </main>
             <Chatbot />

@@ -260,7 +260,7 @@ async def analyze_fabric(
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": "Output STRICTLY AND ONLY the word YES if this is a close-up macro photograph of a woven fabric, textile, or threading. If it is a timetable, spreadsheet, text, screenshot, or anything else, output STRICTLY AND ONLY the word NO. Do not explain your reasoning."},
+                            {"type": "text", "text": "CRITICAL TASK: Determine if this image is a genuine woven fabric/textile sample. If the image contains text, spreadsheets, tables, timetables, screenshots, computer screens, UI elements, or is a solid non-textured color, you MUST output the exact word: REJECT. If it is genuinely a macro photo of fabric threads, output the exact word: YES. Do not output anything else."},
                             {
                                 "type": "image_url",
                                 "image_url": {
@@ -275,8 +275,8 @@ async def analyze_fabric(
                 max_tokens=10
             )
             vision_response = chat_completion.choices[0].message.content.strip().upper()
-            if "YES" not in vision_response:
-                raise HTTPException(status_code=400, detail="Image does not appear to be a fabric or textile. Please upload a clear photo of a fabric.")
+            if not vision_response.startswith("YES"):
+                raise HTTPException(status_code=400, detail="Image does not appear to be a fabric or textile. Please upload a clear photo of a fabric, not a screenshot or document.")
         except Exception as e:
             if isinstance(e, HTTPException):
                 raise e

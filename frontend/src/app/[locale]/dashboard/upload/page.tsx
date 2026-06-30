@@ -90,13 +90,20 @@ export default function UploadPage() {
       setProgress(40);
 
       // 1. Upload to Supabase Storage
-      const filePath = `${user.id}/${Date.now()}_${compressedFile.name}`;
+      let finalStoragePath = `${user.id}/${Date.now()}_${compressedFile.name}`;
       
       setProgress(50);
       try {
-        await supabase.storage.from('uploads').upload(filePath, compressedFile);
+        await supabase.storage.from('uploads').upload(finalStoragePath, compressedFile);
       } catch (uploadEx) {
-        console.warn("Storage upload failed, continuing with analysis:", uploadEx);
+        console.warn("Storage upload failed, fallback to base64 encoding:", uploadEx);
+        // Fallback to storing as a data URI if storage fails (e.g. no bucket, RLS error)
+        const base64 = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(compressedFile);
+        });
+        finalStoragePath = base64;
       }
       setProgress(70);
 
@@ -107,7 +114,7 @@ export default function UploadPage() {
           user_id: user.id,
           file_name: compressedFile.name,
           file_size: compressedFile.size,
-          storage_path: filePath
+          storage_path: finalStoragePath
         })
         .select()
         .single();

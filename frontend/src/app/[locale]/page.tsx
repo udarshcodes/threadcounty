@@ -42,11 +42,6 @@ export default function Home() {
                 {t("getStarted")} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/dashboard/upload">
-              <Button size="lg" variant="outline" className="rounded-full px-8">
-                {t("viewDemo")}
-              </Button>
-            </Link>
           </motion.div>
         </div>
       </section>

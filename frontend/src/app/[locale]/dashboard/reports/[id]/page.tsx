@@ -81,7 +81,10 @@ export default function ReportPage() {
                  {report.uploads?.storage_path ? (
                    // eslint-disable-next-line @next/next/no-img-element
                    <img 
-                     src={supabase.storage.from('uploads').getPublicUrl(report.uploads.storage_path).data.publicUrl} 
+                     src={report.uploads.storage_path.startsWith('data:') 
+                       ? report.uploads.storage_path 
+                       : supabase.storage.from('uploads').getPublicUrl(report.uploads.storage_path).data.publicUrl
+                     } 
                      alt="Analyzed Fabric" 
                      className="w-full h-full object-cover"
                      onError={(e) => {
