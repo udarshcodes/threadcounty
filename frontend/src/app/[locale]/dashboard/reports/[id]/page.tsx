@@ -78,10 +78,25 @@ export default function ReportPage() {
             </CardHeader>
             <CardContent>
               <div className="aspect-square bg-muted/50 rounded-lg flex items-center justify-center border overflow-hidden relative">
-                 {/* Placeholder for uploaded image */}
-                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
-                 <Layers className="h-12 w-12 text-muted-foreground/30" />
-                 <span className="absolute bottom-2 left-2 text-xs font-mono bg-background/80 px-2 py-1 rounded">
+                 {report.uploads?.storage_path ? (
+                   // eslint-disable-next-line @next/next/no-img-element
+                   <img 
+                     src={supabase.storage.from('uploads').getPublicUrl(report.uploads.storage_path).data.publicUrl} 
+                     alt="Analyzed Fabric" 
+                     className="w-full h-full object-cover"
+                     onError={(e) => {
+                       // Fallback if image fails to load
+                       e.currentTarget.style.display = 'none';
+                       e.currentTarget.parentElement?.classList.add('fallback-bg');
+                     }}
+                   />
+                 ) : (
+                   <>
+                     <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent fallback-bg"></div>
+                     <Layers className="h-12 w-12 text-muted-foreground/30" />
+                   </>
+                 )}
+                 <span className="absolute bottom-2 left-2 text-xs font-mono bg-background/80 px-2 py-1 rounded shadow-sm z-10">
                    {report.uploads?.file_name || "Fabric_Sample.jpg"}
                  </span>
               </div>

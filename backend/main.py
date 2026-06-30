@@ -311,9 +311,6 @@ async def analyze_fabric(
     
     # Fallback to realistic bounds if the image was not a fabric texture (e.g. solid color)
     if warp_count < 20 or weft_count < 20:
-        if groq_client:
-            # If Vision API didn't catch it but math did, it's likely not a fabric
-            pass 
         raise HTTPException(status_code=400, detail="Image does not contain a recognizable woven fabric texture. Please upload a clear, close-up photo of a textile.")
 
     thread_density = round((warp_count + weft_count) / 2.0, 2)

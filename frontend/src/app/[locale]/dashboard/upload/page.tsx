@@ -92,9 +92,12 @@ export default function UploadPage() {
       // 1. Upload to Supabase Storage
       const filePath = `${user.id}/${Date.now()}_${compressedFile.name}`;
       
-      // Simulate network request progress
       setProgress(50);
-      await new Promise(r => setTimeout(r, 800));
+      try {
+        await supabase.storage.from('uploads').upload(filePath, compressedFile);
+      } catch (uploadEx) {
+        console.warn("Storage upload failed, continuing with analysis:", uploadEx);
+      }
       setProgress(70);
 
       // 2. Create Upload Record
