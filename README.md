@@ -1,8 +1,14 @@
+<div align="center">
+  <img src="./frontend/public/logo.png" alt="ThreadCounty Logo" width="120" />
+</div>
+
 # ThreadCounty
 
 AI-powered textile analysis platform for identifying thread density, warp/weft counts, and fabric composition.
 
 ## Live Demo & Deployment
+**Live Demo:** [https://threadcounty-frontend.onrender.com/en](https://threadcounty-frontend.onrender.com/en)
+
 ThreadCounty is fully production-ready and designed for a 1-click deployment on **Render**. 
 Simply connect this repository to Render and use the included `render.yaml` Blueprint to automatically provision and securely connect the Next.js Frontend and FastAPI Backend.
 

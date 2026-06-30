@@ -94,9 +94,10 @@ export default function UploadPage() {
       
       setProgress(50);
       try {
-        await supabase.storage.from('uploads').upload(finalStoragePath, compressedFile);
+        const { error: storageError } = await supabase.storage.from('uploads').upload(finalStoragePath, compressedFile);
+        if (storageError) throw storageError;
       } catch (uploadEx) {
-        console.warn("Storage upload failed, fallback to base64 encoding:", uploadEx);
+        console.warn("Storage upload failed (bucket missing or RLS), fallback to base64 encoding:", uploadEx);
         // Fallback to storing as a data URI if storage fails (e.g. no bucket, RLS error)
         const base64 = await new Promise<string>((resolve) => {
           const reader = new FileReader();

@@ -244,9 +244,19 @@ async def submit_contact(
 
 @app.post("/api/analyze", response_model=AIAnalysisResult)
 async def analyze_fabric(
-    file: UploadFile = File(...), user: Dict[str, Any] = Depends(get_current_user)
+    file: UploadFile = File(...), 
+    ocr_text: Optional[str] = Form(None),
+    user: Dict[str, Any] = Depends(get_current_user)
 ):
     contents = await file.read()
+
+    # --- OCR TIMETABLE/DOCUMENT REJECTION ---
+    # Tesseract runs on the frontend. If it found significant text, it's NOT a fabric.
+    if ocr_text and len(ocr_text.strip()) > 15:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Image rejected: Detected significant text ({len(ocr_text.strip())} characters). This appears to be a document, timetable, or screenshot, not a fabric sample. Please upload a clear photo of woven threads."
+        )
 
     # --- AI VISION VALIDATION ---
     if groq_client:
@@ -289,6 +299,37 @@ async def analyze_fabric(
 
     if img is None:
         img = np.zeros((512, 512), dtype=np.uint8)
+
+    # --- OPENCV HEURISTIC REJECTION ALGORITHM ---
+    # Definitively reject timetables, documents, and UI screenshots mathematically
+    
+    # 1. Document / Flat Color Detection
+    # Fabric is highly textured. Documents have huge areas of identical flat color (e.g. solid white).
+    hist = cv2.calcHist([img], [0], None, [256], [0, 256])
+    dominant_color_ratio = np.max(hist) / (img.shape[0] * img.shape[1])
+    if dominant_color_ratio > 0.40:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Image rejected: Lacks natural fabric texture (Solid color ratio {dominant_color_ratio:.2f}). This appears to be a document or screenshot."
+        )
+
+    # 2. Timetable / Spreadsheet Grid Detection
+    # Timetables have perfectly straight, long horizontal and vertical lines.
+    edges = cv2.Canny(img, 50, 150, apertureSize=3)
+    lines = cv2.HoughLinesP(edges, 1, np.pi/180, threshold=100, minLineLength=150, maxLineGap=10)
+    if lines is not None:
+        geometric_lines = 0
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            # If the line is perfectly horizontal or vertical
+            if abs(x1 - x2) < 3 or abs(y1 - y2) < 3:
+                geometric_lines += 1
+        if geometric_lines > 4:
+            raise HTTPException(
+                status_code=400, 
+                detail="Image rejected: Detected perfect geometric grid lines. This is a timetable or spreadsheet, not a fabric sample."
+            )
+    # --------------------------------------------
 
     # Standardize image size for FFT (power of 2 is optimal)
     img = cv2.resize(img, (512, 512))
