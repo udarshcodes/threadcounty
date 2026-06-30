@@ -9,6 +9,10 @@ AI-powered textile analysis platform for identifying thread density, warp/weft c
 ## Live Demo & Deployment
 **Live Demo:** [https://threadcounty-frontend.onrender.com/en](https://threadcounty-frontend.onrender.com/en)
 
+If you are on the live site, you can access the Admin Dashboard at: [https://threadcounty-frontend.onrender.com/en/admin](https://threadcounty-frontend.onrender.com/en/admin)
+
+> **Important Note on Access:** Currently, for demonstration and development purposes, the admin page is configured to simulate admin access for any authenticated user. This means that as long as you are logged into any standard account, navigating to `/admin` will automatically grant you access to view the platform statistics, manage users, and view platform-wide reports!
+
 ThreadCounty is fully production-ready and designed for a 1-click deployment on **Render**. 
 Simply connect this repository to Render and use the included `render.yaml` Blueprint to automatically provision and securely connect the Next.js Frontend and FastAPI Backend.
 
